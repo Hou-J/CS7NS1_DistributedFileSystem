@@ -26,7 +26,10 @@ class serverFileList(Resource):
 class serverfile(Resource):
     def get(self,filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-        print(files_path)
+        # print(files_path)
+        f = [f for f in fileslist if f == filename]
+        if len(f) == 0:
+            return False
         with open(os.path.join(files_path, filename)) as f:
             # print(os.path.join(files_path, filename))
             data = f.readlines()
@@ -36,7 +39,11 @@ api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
 
 if __name__ == '__main__':
-    # files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+    files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+    fileslist = []
+    for filename in os.listdir(files_path):
+        print(filename)
+        fileslist.append(filename)
     # with open(os.path.join(files_path, "examplefile.txt")) as f:
     #     data = f.readlines()
     # for d in data:

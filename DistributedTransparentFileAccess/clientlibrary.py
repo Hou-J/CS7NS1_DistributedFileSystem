@@ -15,8 +15,10 @@ class clientLibrary():
     def readFile(self,fileName):
         r = requests.get("http://127.0.0.1:8888/file/{}".format(fileName))
         data = json.loads(r.text)
-
-        print("--------------file start-----------------")
-        for d in data:
-            print(d,end='')
-        print("\n---------------file end------------------")
+        if data == False:
+            print("File do not exit!")
+        else:
+            print("--------------file start-----------------")
+            for d in data:
+                print(d,end='')
+            print("\n---------------file end------------------")
