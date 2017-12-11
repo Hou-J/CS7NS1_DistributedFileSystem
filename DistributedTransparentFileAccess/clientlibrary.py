@@ -46,3 +46,12 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
+    def deleteFile(self, fileName):
+        r = requests.delete("http://127.0.0.1:8888/file/{}".format(fileName))
+        data = json.loads(r.text)
+        if data == False:
+            print("File do not exit!")
+        elif data == True:
+            print("-------------file deleted----------------")
+
+

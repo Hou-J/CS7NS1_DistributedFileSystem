@@ -10,8 +10,8 @@ if __name__ == "__main__":
             "|2. Read a File.                      |\n"
             "|3. Add a new file.                   |\n"
             "|4. Edit a file.                      |\n"
-            "||\n"
-            "||\n"
+            "|5. Delete a file                     |\n"
+            "|                                     |\n"
             "|0. Exit.                             |\n"
             "---------------------------------------\n"))
 
@@ -32,6 +32,12 @@ if __name__ == "__main__":
             fileData = input("Input the new data in {}: ".format(fileToAdd))
             clientLibrary.editFile(clientLibrary, fileToAdd, fileData)
 
+        elif actionNum == 5:
+            fileToDelete = input("Input the complete filename you want to delete: ")
+            yn = input("Are you sure you want to delete {} ? (Y/N)".format(fileToDelete))
+            if yn == "n" or yn == "N":
+                continue
+            clientLibrary.deleteFile(clientLibrary, fileToDelete)
 
 
         elif actionNum == 0:

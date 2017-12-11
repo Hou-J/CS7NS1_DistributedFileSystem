@@ -76,6 +76,21 @@ class serverfile(Resource):
             data = f.readlines()
         return data
 
+    def delete(self, filename):
+        files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+        f = [f for f in fileslist if f == filename]
+        if len(f) == 0:
+            return False
+        deleteFilePath = os.path.join(files_path, filename)
+        print(deleteFilePath)
+        os.remove(deleteFilePath)
+        fileslist.remove(fileslist.index(filename))
+        print(fileslist,"@!@!@!@!@!@!@")
+        return True
+
+
+
+
 
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
