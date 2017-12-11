@@ -34,3 +34,15 @@ class clientLibrary():
             for d in data:
                 print(d, end='')
             print("\n---------------file end------------------")
+
+    def editFile(self, FileName, data):
+        r = requests.put("http://127.0.0.1:8888/file/{}".format(FileName), json={'data': data})
+        data = json.loads(r.text)
+        if data == False:
+            print("File do not exit!")
+        else:
+            print("--------------file edited----------------")
+            for d in data:
+                print(d, end='')
+            print("\n---------------file end------------------")
+

@@ -52,6 +52,30 @@ class serverfile(Resource):
             data = f.readlines()
         return data
 
+    def put(self, filename):
+        r = reqparse.RequestParser()
+        r.add_argument('data', type=str, location='json')
+        files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+        # print(files_path)
+        # print(fileslist,"@@@",filename)
+
+        # for f in fileslist:
+        #     print(f)
+        #     if f ==filename:
+        #         print("!!!!!!!!!!")
+        f = [f for f in fileslist if f == filename]
+        # print(f)
+        if len(f) == 0:
+            return False
+        editFilePath = os.path.join(files_path, filename)
+        print(editFilePath)
+        currentFile = open(editFilePath, 'w')
+        currentFile.write(r.parse_args()['data'])
+        currentFile.close()
+        with open(os.path.join(files_path, filename)) as f:
+            data = f.readlines()
+        return data
+
 
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')

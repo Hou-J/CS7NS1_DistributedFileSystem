@@ -1,6 +1,7 @@
 from clientlibrary import clientLibrary
 
 if __name__ == "__main__":
+
     while True:
         actionNum = int(input(
             "---------------------------------------\n"
@@ -8,7 +9,7 @@ if __name__ == "__main__":
             "|1. View the file list.               |\n"
             "|2. Read a File.                      |\n"
             "|3. Add a new file.                   |\n"
-            "||\n"
+            "|4. Edit a file.                      |\n"
             "||\n"
             "||\n"
             "|0. Exit.                             |\n"
@@ -26,8 +27,18 @@ if __name__ == "__main__":
             fileData = input("Input what you want to add to the {}: ".format(fileToAdd))
             clientLibrary.addFile(clientLibrary, fileToAdd, fileData)
 
+        elif actionNum == 4:
+            fileToAdd = input("Input the complete filename you want to edit: ")
+            fileData = input("Input the new data in {}: ".format(fileToAdd))
+            clientLibrary.editFile(clientLibrary, fileToAdd, fileData)
+
 
 
         elif actionNum == 0:
             break
             # r = requests.post("http://127.0.0.1:8888/hello", json={'post': "Hello server"})
+
+        else:
+            print("Wrong Input!")
+
+        input("Press enter to continue")
