@@ -1,5 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
+import os
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -7,7 +9,15 @@ api = Api(app)
 
 class Hello(Resource):
     def get(self):
-        return "Hello client"
+        fileslist = []
+        files_path = os.path.dirname(os.path.realpath(__file__)) + "/files"
+        print(files_path)
+        # print(os.listdir(files_path))
+        for filename in os.listdir(files_path):
+            print(filename)
+            fileslist.append(filename)
+        print(fileslist)
+        return fileslist
 
     def post(self):
         r = reqparse.RequestParser()
@@ -18,4 +28,5 @@ class Hello(Resource):
 api.add_resource(Hello, '/hello')
 
 if __name__ == '__main__':
+
     app.run(port=8888)
