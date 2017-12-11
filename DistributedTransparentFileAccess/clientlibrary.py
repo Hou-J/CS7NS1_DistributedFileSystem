@@ -1,5 +1,6 @@
 import requests, json
 
+
 class clientLibrary():
     def fileLists(self):
         r = requests.get("http://127.0.0.1:8888/fileList")
@@ -12,7 +13,7 @@ class clientLibrary():
             print(filename)
         print("\n-------------action end----------------")
 
-    def readFile(self,fileName):
+    def readFile(self, fileName):
         r = requests.get("http://127.0.0.1:8888/file/{}".format(fileName))
         data = json.loads(r.text)
         if data == False:
@@ -20,5 +21,16 @@ class clientLibrary():
         else:
             print("--------------file start-----------------")
             for d in data:
-                print(d,end='')
+                print(d, end='')
+            print("\n---------------file end------------------")
+
+    def addFile(self, fileName, data):
+        r = requests.post("http://127.0.0.1:8888/fileList", json={'fileName': fileName, 'data': data})
+        data = json.loads(r.text)
+        if data == False:
+            print("File already exit!")
+        else:
+            print("--------------file added-----------------")
+            for d in data:
+                print(d, end='')
             print("\n---------------file end------------------")

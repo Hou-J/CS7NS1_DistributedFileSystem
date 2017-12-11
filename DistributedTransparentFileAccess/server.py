@@ -20,11 +20,28 @@ class serverFileList(Resource):
 
     def post(self):
         r = reqparse.RequestParser()
-        r.add_argument('post', type=str, location='json')
-        print(r.parse_args()['post'])
+        r.add_argument('fileName', type=str, location='json')
+        r.add_argument('data', type=str, location='json')
+        print(r.parse_args()['fileName'], "to add.")
+        filename = r.parse_args()['fileName']
+        files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+        f = [f for f in fileslist if f == filename]
+        if len(f) != 0:
+            return False
+        fileslist.append(filename)
+        # print(type(filename),filename,"!!")
+        addFilePath = os.path.join(files_path, filename)
+        print(addFilePath)
+        addFile = open(addFilePath, 'w')
+        addFile.write(r.parse_args()['data'])
+        addFile.close()
+        with open(os.path.join(files_path, filename)) as f:
+            data = f.readlines()
+        return data
+
 
 class serverfile(Resource):
-    def get(self,filename):
+    def get(self, filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
         # print(files_path)
         f = [f for f in fileslist if f == filename]
@@ -34,6 +51,7 @@ class serverfile(Resource):
             # print(os.path.join(files_path, filename))
             data = f.readlines()
         return data
+
 
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
