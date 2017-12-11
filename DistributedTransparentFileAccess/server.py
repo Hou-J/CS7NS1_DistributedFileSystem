@@ -28,6 +28,7 @@ class serverfile(Resource):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
         print(files_path)
         with open(os.path.join(files_path, filename)) as f:
+            # print(os.path.join(files_path, filename))
             data = f.readlines()
         return data
 
