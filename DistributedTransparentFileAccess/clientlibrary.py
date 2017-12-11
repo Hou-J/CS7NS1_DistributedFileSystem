@@ -4,7 +4,6 @@ import requests, json
 class clientLibrary():
     def fileLists(self):
         r = requests.get("http://127.0.0.1:8888/fileList")
-        # print(json.loads(r.text))
         filelists = json.loads(r.text)
 
         print("------------action start---------------")
@@ -53,5 +52,3 @@ class clientLibrary():
             print("File do not exit!")
         elif data == True:
             print("-------------file deleted----------------")
-
-

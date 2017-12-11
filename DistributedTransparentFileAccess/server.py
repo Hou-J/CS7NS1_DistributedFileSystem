@@ -11,7 +11,6 @@ class serverFileList(Resource):
         fileslist = []
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
         print(files_path)
-        # print(os.listdir(files_path))
         for filename in os.listdir(files_path):
             print(filename)
             fileslist.append(filename)
@@ -29,7 +28,6 @@ class serverFileList(Resource):
         if len(f) != 0:
             return False
         fileslist.append(filename)
-        # print(type(filename),filename,"!!")
         addFilePath = os.path.join(files_path, filename)
         print(addFilePath)
         addFile = open(addFilePath, 'w')
@@ -43,12 +41,10 @@ class serverFileList(Resource):
 class serverfile(Resource):
     def get(self, filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-        # print(files_path)
         f = [f for f in fileslist if f == filename]
         if len(f) == 0:
             return False
         with open(os.path.join(files_path, filename)) as f:
-            # print(os.path.join(files_path, filename))
             data = f.readlines()
         return data
 
@@ -56,15 +52,7 @@ class serverfile(Resource):
         r = reqparse.RequestParser()
         r.add_argument('data', type=str, location='json')
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-        # print(files_path)
-        # print(fileslist,"@@@",filename)
-
-        # for f in fileslist:
-        #     print(f)
-        #     if f ==filename:
-        #         print("!!!!!!!!!!")
         f = [f for f in fileslist if f == filename]
-        # print(f)
         if len(f) == 0:
             return False
         editFilePath = os.path.join(files_path, filename)
@@ -85,11 +73,7 @@ class serverfile(Resource):
         print(deleteFilePath)
         os.remove(deleteFilePath)
         fileslist.remove(fileslist.index(filename))
-        print(fileslist,"@!@!@!@!@!@!@")
         return True
-
-
-
 
 
 api.add_resource(serverFileList, '/fileList')
@@ -101,9 +85,5 @@ if __name__ == '__main__':
     for filename in os.listdir(files_path):
         print(filename)
         fileslist.append(filename)
-    # with open(os.path.join(files_path, "examplefile.txt")) as f:
-    #     data = f.readlines()
-    # for d in data:
-    #     print(d,end='')
 
     app.run(port=8888)

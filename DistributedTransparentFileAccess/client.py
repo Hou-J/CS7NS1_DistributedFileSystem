@@ -42,7 +42,6 @@ if __name__ == "__main__":
 
         elif actionNum == 0:
             break
-            # r = requests.post("http://127.0.0.1:8888/hello", json={'post': "Hello server"})
 
         else:
             print("Wrong Input!")
