@@ -1,12 +1,9 @@
 DFS task:
 Jiongxu Hou 17304249
 
-Dependencies:
+Distributed Transparent File Access:
 
-	radon: 
-		used to calculate cyclomatic complexity
-		
-		can be installed through	pip install radon
+Dependencies:
 		
 	flask:
 		used to implement the restfull api
@@ -25,8 +22,6 @@ Dependencies:
 		
 		can be installed through	pip install requests
 
-		
-Distributed Transparent File Access:
 
 server:
 
@@ -58,6 +53,6 @@ client:
 	need open exact number of workers as the manager required
 	
 	
-will add a .sh file later and make the start worker.py work automatically.
+will add a .sh file later
 
 
