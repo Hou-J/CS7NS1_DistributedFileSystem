@@ -6,7 +6,7 @@ app = Flask(__name__)
 api = Api(app)
 
 
-class Hello(Resource):
+class serverFileList(Resource):
     def get(self):
         fileslist = []
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
@@ -23,17 +23,22 @@ class Hello(Resource):
         r.add_argument('post', type=str, location='json')
         print(r.parse_args()['post'])
 
+class serverfile(Resource):
+    def get(self,filename):
+        files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+        print(files_path)
+        with open(os.path.join(files_path, filename)) as f:
+            data = f.readlines()
+        return data
 
-api.add_resource(Hello, '/hello')
+api.add_resource(serverFileList, '/fileList')
+api.add_resource(serverfile, '/file/<string:filename>')
 
 if __name__ == '__main__':
-    files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-    print(files_path)
-    with open(os.path.join(files_path, "examplefile.txt")) as f:
-        data = f.readlines()
-    for d in data:
-        print(d,end='')
+    # files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+    # with open(os.path.join(files_path, "examplefile.txt")) as f:
+    #     data = f.readlines()
+    # for d in data:
+    #     print(d,end='')
 
-    # with open() as myfile:
-    #     data = myfile.readlines()
     app.run(port=8888)
