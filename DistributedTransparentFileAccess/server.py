@@ -2,11 +2,9 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import os, sys
 
-
 if (len(sys.argv) < 2):
     print("Server usage: python Server.py [PORT]")
     sys.exit(0)
-
 
 app = Flask(__name__)
 api = Api(app)

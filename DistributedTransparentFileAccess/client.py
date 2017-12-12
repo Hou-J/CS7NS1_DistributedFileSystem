@@ -7,7 +7,7 @@ if (len(sys.argv) < 3):
 
 if __name__ == "__main__":
 
-    address = "{}:{}".format(sys.argv[1],int(sys.argv[2]))
+    address = "{}:{}".format(sys.argv[1], int(sys.argv[2]))
 
     while True:
         actionNum = int(input(
