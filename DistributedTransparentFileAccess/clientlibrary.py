@@ -2,8 +2,8 @@ import requests, json
 
 
 class clientLibrary():
-    def fileLists(self):
-        r = requests.get("http://127.0.0.1:8888/fileList")
+    def fileLists(self, address):
+        r = requests.get("http://{}/fileList".format(address))
         filelists = json.loads(r.text)
 
         print("------------action start---------------")
@@ -12,8 +12,8 @@ class clientLibrary():
             print(filename)
         print("\n-------------action end----------------")
 
-    def readFile(self, fileName):
-        r = requests.get("http://127.0.0.1:8888/file/{}".format(fileName))
+    def readFile(self, address, fileName):
+        r = requests.get("http://{}/file/{}".format(address, fileName))
         data = json.loads(r.text)
         if data == False:
             print("File do not exit!")
@@ -23,8 +23,8 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def addFile(self, fileName, data):
-        r = requests.post("http://127.0.0.1:8888/fileList", json={'fileName': fileName, 'data': data})
+    def addFile(self, address, fileName, data):
+        r = requests.post("http://{}/fileList".format(address), json={'fileName': fileName, 'data': data})
         data = json.loads(r.text)
         if data == False:
             print("File already exit!")
@@ -34,8 +34,8 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def editFile(self, FileName, data):
-        r = requests.put("http://127.0.0.1:8888/file/{}".format(FileName), json={'data': data})
+    def editFile(self, address, FileName, data):
+        r = requests.put("http://{}/file/{}".format(address, FileName), json={'data': data})
         data = json.loads(r.text)
         if data == False:
             print("File do not exit!")
@@ -45,8 +45,8 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def deleteFile(self, fileName):
-        r = requests.delete("http://127.0.0.1:8888/file/{}".format(fileName))
+    def deleteFile(self, address, fileName):
+        r = requests.delete("http://{}/file/{}".format(address, fileName))
         data = json.loads(r.text)
         if data == False:
             print("File do not exit!")

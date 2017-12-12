@@ -25,9 +25,9 @@ Dependencies:
 
 server:
 
-	the ip and port is hardcode and set as default: http://127.0.0.1:8888
+	the ip is: 0.0.0.0
 	
-	start with:	python manger.py
+	start with:	python manger.py [Port]
 	
 	required input:
 	
@@ -43,10 +43,8 @@ server:
 		
 		
 client:
-
-	the ip and port is hardcode and set as default: http://127.0.0.1:8888
 	
-	start with:	python worker.py
+	start with:	python worker.py [IP] [Port]
 	
 	no required input
 	

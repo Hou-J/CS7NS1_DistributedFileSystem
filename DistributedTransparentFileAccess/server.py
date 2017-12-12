@@ -1,6 +1,12 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-import os
+import os, sys
+
+
+if (len(sys.argv) < 2):
+    print("Server usage: python Server.py [PORT]")
+    sys.exit(0)
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -86,4 +92,4 @@ if __name__ == '__main__':
         print(filename)
         fileslist.append(filename)
 
-    app.run(port=8888)
+    app.run(host="0.0.0.0", port=int(sys.argv[1]))

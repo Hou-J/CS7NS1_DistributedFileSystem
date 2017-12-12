@@ -1,6 +1,13 @@
 from clientlibrary import clientLibrary
+import sys
+
+if (len(sys.argv) < 3):
+    print("Server usage: python Server.py [IP] [PORT]")
+    sys.exit(0)
 
 if __name__ == "__main__":
+
+    address = "{}:{}".format(sys.argv[1],int(sys.argv[2]))
 
     while True:
         actionNum = int(input(
@@ -16,28 +23,28 @@ if __name__ == "__main__":
             "---------------------------------------\n"))
 
         if actionNum == 1:
-            clientLibrary.fileLists(clientLibrary)
+            clientLibrary.fileLists(clientLibrary, address)
 
         elif actionNum == 2:
             fileToOpen = input("Input the complete filename you want to open: ")
-            clientLibrary.readFile(clientLibrary, fileToOpen)
+            clientLibrary.readFile(clientLibrary, address, fileToOpen)
 
         elif actionNum == 3:
             fileToAdd = input("Input the complete filename you want to add: ")
             fileData = input("Input what you want to add to the {}: ".format(fileToAdd))
-            clientLibrary.addFile(clientLibrary, fileToAdd, fileData)
+            clientLibrary.addFile(clientLibrary, address, fileToAdd, fileData)
 
         elif actionNum == 4:
             fileToAdd = input("Input the complete filename you want to edit: ")
             fileData = input("Input the new data in {}: ".format(fileToAdd))
-            clientLibrary.editFile(clientLibrary, fileToAdd, fileData)
+            clientLibrary.editFile(clientLibrary, address, fileToAdd, fileData)
 
         elif actionNum == 5:
             fileToDelete = input("Input the complete filename you want to delete: ")
             yn = input("Are you sure you want to delete {} ? (Y/N)".format(fileToDelete))
             if yn == "n" or yn == "N":
                 continue
-            clientLibrary.deleteFile(clientLibrary, fileToDelete)
+            clientLibrary.deleteFile(clientLibrary, address, fileToDelete)
 
 
         elif actionNum == 0:
