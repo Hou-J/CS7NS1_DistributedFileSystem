@@ -29,26 +29,12 @@ server:
 	
 	start with:	python manger.py [Port]
 	
-	required input:
-	
-		number of workers
-		
-		github username
-		
-		github password(used package getpass)
-		
-		the repository belonged user
-		
-		the repository name
 		
 		
 client:
 	
 	start with:	python worker.py [IP] [Port]
 	
-	no required input
-	
-	need open exact number of workers as the manager required
 	
 	
 will add a .sh file later
