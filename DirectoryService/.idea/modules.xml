@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/DFS-rest.iml" filepath="$PROJECT_DIR$/.idea/DFS-rest.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/DirectoryService.iml" filepath="$PROJECT_DIR$/.idea/DirectoryService.iml" />
     </modules>
   </component>
 </project>
