@@ -7,7 +7,7 @@ class clientLibrary():
         filelists = json.loads(r.text)
 
         print("------------action start---------------")
-        print("File List:\n")
+        print("File List:")
         for filename in filelists:
             print(filename)
         print("\n-------------action end----------------")
@@ -52,3 +52,22 @@ class clientLibrary():
             print("File do not exit!")
         elif data == True:
             print("-------------file deleted----------------")
+
+    def folderLists(self, address):
+        r = requests.get("http://{}/folder".format(address))
+        foldernames = json.loads(r.text)
+
+        print("------------action start---------------")
+        print("Folder List:")
+        for f in foldernames:
+            print(f)
+        print("\n-------------action end----------------")
+
+    def addFolder(self, address, folderName):
+        r = requests.post("http://{}/folder".format(address), json={'folderName': folderName})
+        data = json.loads(r.text)
+        if data:
+            print("-------------folder added----------------")
+        else:
+            print("Folder already exit!")
+

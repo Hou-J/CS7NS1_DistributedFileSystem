@@ -17,7 +17,11 @@ if __name__ == "__main__":
             "|2. Read a File.                      |\n"
             "|3. Add a new file.                   |\n"
             "|4. Edit a file.                      |\n"
-            "|5. Delete a file                     |\n"
+            "|5. Delete a file.                    |\n"
+            "|6. View the folders.                 |\n"
+            "|7. Add a new folder.                 |\n"
+            "|8. Rename a folder.                  |\n"
+            "|9. Delete a folder.                  |\n"
             "|                                     |\n"
             "|0. Exit.                             |\n"
             "---------------------------------------\n"))
@@ -45,6 +49,19 @@ if __name__ == "__main__":
             if yn == "n" or yn == "N":
                 continue
             clientLibrary.deleteFile(clientLibrary, address, fileToDelete)
+
+        elif actionNum == 6:
+            clientLibrary.folderLists(clientLibrary,address)
+
+        elif actionNum == 7:
+            folderToAdd = input("Input the complete folder directory you want to add: ")
+            clientLibrary.addFolder(clientLibrary, address, folderToAdd)
+
+        elif actionNum == 8:
+            pass
+
+        elif actionNum == 9:
+            pass
 
 
         elif actionNum == 0:
