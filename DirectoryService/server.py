@@ -90,7 +90,18 @@ class folder(Resource):
         return True
 
     def put(self):
-        pass
+        r = reqparse.RequestParser()
+        r.add_argument('oldName', type=str, location='json')
+        r.add_argument('newName', type=str, location='json')
+        oldName = r.parse_args()['oldName']
+        newName = r.parse_args()['newName']
+        d = [d for d in dir_list if d == oldName]
+        if len(d) == 0:
+            return False
+        os.rename(os.path.join(files_path,oldName),os.path.join(files_path,newName))
+        dir_list.remove(oldName)
+        dir_list.append(newName)
+        return True
 
     def delete(self):
         pass

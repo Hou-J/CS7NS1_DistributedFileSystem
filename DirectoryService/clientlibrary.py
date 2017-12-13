@@ -16,7 +16,7 @@ class clientLibrary():
         r = requests.get("http://{}/file/{}".format(address, fileName))
         data = json.loads(r.text)
         if data == False:
-            print("File do not exit!")
+            print("File do not exist!")
         else:
             print("--------------file start-----------------")
             for d in data:
@@ -27,7 +27,7 @@ class clientLibrary():
         r = requests.post("http://{}/fileList".format(address), json={'fileName': fileName, 'data': data})
         data = json.loads(r.text)
         if data == False:
-            print("File already exit!")
+            print("File already exist!")
         else:
             print("--------------file added-----------------")
             for d in data:
@@ -38,7 +38,7 @@ class clientLibrary():
         r = requests.put("http://{}/file/{}".format(address, FileName), json={'data': data})
         data = json.loads(r.text)
         if data == False:
-            print("File do not exit!")
+            print("File do not exist!")
         else:
             print("--------------file edited----------------")
             for d in data:
@@ -49,7 +49,7 @@ class clientLibrary():
         r = requests.delete("http://{}/file/{}".format(address, fileName))
         data = json.loads(r.text)
         if data == False:
-            print("File do not exit!")
+            print("File do not exist!")
         elif data == True:
             print("-------------file deleted----------------")
 
@@ -69,5 +69,13 @@ class clientLibrary():
         if data:
             print("-------------folder added----------------")
         else:
-            print("Folder already exit!")
+            print("Folder already exist!")
+            
+    def renameFolder(self, address, oldName, newName):
+        r = requests.put("http://{}/folder".format(address), json={'oldName': oldName,'newName':newName})
+        data = json.loads(r.text)
+        if data:
+            print("------------folder renamed---------------")
+        else:
+            print("Folder do not exist!")
 

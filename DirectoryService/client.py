@@ -58,7 +58,9 @@ if __name__ == "__main__":
             clientLibrary.addFolder(clientLibrary, address, folderToAdd)
 
         elif actionNum == 8:
-            pass
+            oldName = input("Input old folder name: ")
+            newName = input("Input new folder name: ")
+            clientLibrary.renameFolder(clientLibrary, address, oldName, newName)
 
         elif actionNum == 9:
             pass
