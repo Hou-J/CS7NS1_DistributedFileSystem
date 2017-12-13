@@ -1,7 +1,7 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import os, sys, subprocess
-
+#
 # if (len(sys.argv) < 2):
 #     print("Server usage: python Server.py [PORT]")
 #     sys.exit(0)
@@ -84,16 +84,29 @@ import os, sys, subprocess
 # api.add_resource(serverfile, '/file/<string:filename>')
 
 if __name__ == '__main__':
-    root_path = os.path.dirname(os.path.realpath(__file__))+'\\files'
     files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
     print(files_path)
     # fileslist = []
     # for filename in os.listdir(files_path):
     #     print(filename)
     #     fileslist.append(filename)
+    dir_list = []
+    file_list = []
     for dirName, subdirList, fileList in os.walk(files_path):
         print('Dir: root{}'.format(dirName[dirName.rfind(files_path) + len(files_path):]))
+        dir_list.append(dirName[dirName.rfind(files_path) + len(files_path):])
         for fname in fileList:
             print('\t{}'.format(fname))
+            file_list.append('{}@{}'.format(dirName[dirName.rfind(files_path) + len(files_path):],fname))
         print()
+    print(len(file_list))
+    name = 'hat.txt'
+
+    for d in dir_list:
+        print(d)
+
+    for f in file_list:
+        print(f)
+        if f.split('@')[-1] == name:
+            print('!!')
     # app.run(host="0.0.0.0", port=int(sys.argv[1]))
