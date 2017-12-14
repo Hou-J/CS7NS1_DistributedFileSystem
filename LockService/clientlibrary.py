@@ -70,7 +70,7 @@ class clientLibrary():
         else:
             return True
 
-    def lockAddToQueue(self, address,clientID, filename):
+    def lockAddToQueue(self, address, clientID, filename):
         r = requests.put('http://{}/lock/{}'.format(address, filename), json={'clientID': clientID})
         data = json.loads(r.text)
         if data:
@@ -79,7 +79,7 @@ class clientLibrary():
             print("File is occupied!")
             return False
 
-    def lockDeleteFromQueue(self, address,clientID, filename):
+    def lockDeleteFromQueue(self, address, clientID, filename):
         r = requests.delete('http://{}/lock/{}'.format(address, filename), json={'clientID': clientID})
         data = json.loads(r.text)
         if data:

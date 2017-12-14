@@ -58,13 +58,11 @@ class serverfile(Resource):
         r.add_argument('clientID', type=int, location='json')
         ID = r.parse_args()['clientID']
 
-        # print(locks,"!!!!!!!!!!!!!!!")
         for lo in locks:
             print(lo[:len(filename)])
 
         l = [l for l in locks if l[:len(filename)] == filename]
 
-        # print(l[0][-1],"!!")
         print(ID)
         if l[0][-1] == str(ID):
             # print("@############")
@@ -123,11 +121,13 @@ class lockFile(Resource):
         print(ID)
         return True
 
+
 class clientID(Resource):
     def get(self):
         global clientID
         clientID += 1
         return clientID
+
 
 api.add_resource(clientID, "/clientID")
 api.add_resource(lockFile, "/lock/<string:filename>")

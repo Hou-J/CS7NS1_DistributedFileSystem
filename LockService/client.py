@@ -38,23 +38,23 @@ if __name__ == "__main__":
 
         elif actionNum == 4:
             fileToEdit = input("Input the complete filename you want to edit: ")
-            if clientLibrary.isFileExist(clientLibrary, address, fileToEdit) :
+            if clientLibrary.isFileExist(clientLibrary, address, fileToEdit):
                 if clientLibrary.lockAddToQueue(clientLibrary, address, clientID, fileToEdit) != False:
                     fileData = input("Input the new data in {}: ".format(fileToEdit))
-                    clientLibrary.editFile(clientLibrary, address,clientID, fileToEdit, fileData)
-                    clientLibrary.lockDeleteFromQueue(clientLibrary, address,clientID, fileToEdit)
+                    clientLibrary.editFile(clientLibrary, address, clientID, fileToEdit, fileData)
+                    clientLibrary.lockDeleteFromQueue(clientLibrary, address, clientID, fileToEdit)
             else:
                 print("File do not exist!")
 
         elif actionNum == 5:
             fileToDelete = input("Input the complete filename you want to delete: ")
             if clientLibrary.isFileExist(clientLibrary, address, fileToDelete):
-                clientLibrary.lockAddToQueue(clientLibrary, address,clientID, fileToDelete)
+                clientLibrary.lockAddToQueue(clientLibrary, address, clientID, fileToDelete)
                 yn = input("Are you sure you want to delete {} ? (Y/N)".format(fileToDelete))
                 if yn == "n" or yn == "N":
                     continue
-                clientLibrary.deleteFile(clientLibrary, address,clientID, fileToDelete)
-                clientLibrary.lockDeleteFromQueue(clientLibrary, address,clientID, fileToDelete)
+                clientLibrary.deleteFile(clientLibrary, address, clientID, fileToDelete)
+                clientLibrary.lockDeleteFromQueue(clientLibrary, address, clientID, fileToDelete)
             else:
                 print("File do not exist!")
 
