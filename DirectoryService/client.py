@@ -63,7 +63,9 @@ if __name__ == "__main__":
             clientLibrary.renameFolder(clientLibrary, address, oldName, newName)
 
         elif actionNum == 9:
-            pass
+            folderToDelete = input("Input the complete folder directory you want to delete: ")
+            clientLibrary.deleteFolder(clientLibrary, address, folderToDelete)
+
 
 
         elif actionNum == 0:

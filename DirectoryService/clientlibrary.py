@@ -79,3 +79,10 @@ class clientLibrary():
         else:
             print("Folder do not exist!")
 
+    def deleteFolder(self,address,folderName):
+        r = requests.delete("http://{}/folder".format(address), json={'folderName': folderName})
+        data = json.loads(r.text)
+        if data:
+            print("------------folder deleted---------------")
+        else:
+            print("Folder do not exist!")

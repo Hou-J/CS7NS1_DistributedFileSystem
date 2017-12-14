@@ -1,6 +1,6 @@
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
-import os, sys, subprocess
+import os, sys, shutil
 
 # if (len(sys.argv) < 2):
 #     print("Server usage: python Server.py [PORT]")
@@ -12,6 +12,7 @@ api = Api(app)
 
 class serverFileList(Resource):
     def get(self):
+        listsRenew()
         return files_list
 
     def post(self):
@@ -24,7 +25,7 @@ class serverFileList(Resource):
         f = [f for f in files_list if f == filename]
         if len(f) != 0:
             return False
-        files_list.append(filename)
+        listsRenew()
         addFilePath = os.path.join(files_path, filename)
         print(addFilePath)
         addFile = open(addFilePath, 'w')
@@ -69,7 +70,7 @@ class serverfile(Resource):
         deleteFilePath = os.path.join(files_path, filename)
         print(deleteFilePath)
         os.remove(deleteFilePath)
-        files_list.remove(files_list.index(filename))
+        listsRenew()
         return True
 
 class folder(Resource):
@@ -86,7 +87,7 @@ class folder(Resource):
         if len(d) != 0:
             return False
         os.makedirs(os.path.join(files_path,newdir))
-        dir_list.append(newdir)
+        listsRenew()
         return True
 
     def put(self):
@@ -99,12 +100,23 @@ class folder(Resource):
         if len(d) == 0:
             return False
         os.rename(os.path.join(files_path,oldName),os.path.join(files_path,newName))
-        dir_list.remove(oldName)
-        dir_list.append(newName)
+        listsRenew()
         return True
 
     def delete(self):
-        pass
+        r = reqparse.RequestParser()
+        r.add_argument('folderName', type=str, location='json')
+        dirToDelete = r.parse_args()['folderName']
+        print(dirToDelete, "to delete.")
+        print(dir_list)
+        for d in dir_list:
+            print(d,"!!!")
+        d = [d for d in dir_list if d == dirToDelete]
+        if len(d) == 0:
+            return False
+        shutil.rmtree(os.path.join(files_path, dirToDelete))
+        listsRenew()
+        return True
 
 # def joinPathAndFile(file):
 #     fileGet = []
@@ -115,6 +127,16 @@ class folder(Resource):
 #             fileGet.append(os.path.join(f_dir,f_file))
 #     return fileGet
 
+def listsRenew():
+    del dir_list[:]
+    del files_list[:]
+    for dirName, subdirList, fileList in os.walk(files_path):
+        print('Dir: {}'.format(dirName[dirName.rfind(files_path) + len(files_path)+1:]))
+        dir_list.append(dirName[dirName.rfind(files_path) + len(files_path)+1:])
+        for fname in fileList:
+            print('\t{}'.format(fname))
+            files_list.append(os.path.join(dirName,fname)[os.path.join(files_path,fname).rfind(root_path)+len(root_path)+1:])
+        print()
 
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
@@ -127,17 +149,10 @@ if __name__ == '__main__':
     dir_list = []
     files_list = []
 
-    for dirName, subdirList, fileList in os.walk(files_path):
-        print('Dir: root{}'.format(dirName[dirName.rfind(files_path) + len(files_path):]))
-        dir_list.append(dirName[dirName.rfind(files_path) + len(files_path)+1:])
-        for fname in fileList:
-            print('\t{}'.format(fname))
-            # files_list.append('{}@\./@{}'.format(dirName[dirName.rfind(files_path) + len(files_path):], fname))
-            files_list.append(os.path.join(dirName,fname)[os.path.join(files_path,fname).rfind(root_path)+len(root_path)+1:])
-        print()
+    listsRenew()
     # print(len(files_list))
 
-    name = 'hat.txt'
+    # name = 'hat.txt'
     # print(joinPathAndFile(name))
     # for d in dir_list:
     #     print(d)
