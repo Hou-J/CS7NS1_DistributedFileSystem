@@ -2,9 +2,9 @@ from flask import Flask
 from flask_restful import Resource, Api, reqparse
 import os, sys, shutil
 
-# if (len(sys.argv) < 2):
-#     print("Server usage: python Server.py [PORT]")
-#     sys.exit(0)
+if (len(sys.argv) < 2):
+    print("Server usage: python Server.py [PORT]")
+    sys.exit(0)
 
 app = Flask(__name__)
 api = Api(app)
@@ -73,6 +73,7 @@ class serverfile(Resource):
         listsRenew()
         return True
 
+
 class folder(Resource):
     def get(self):
         return dir_list
@@ -82,11 +83,10 @@ class folder(Resource):
         r.add_argument('folderName', type=str, location='json')
         newdir = r.parse_args()['folderName']
         print(newdir, "to add.")
-        # print(dir_list)
         d = [d for d in dir_list if d == newdir]
         if len(d) != 0:
             return False
-        os.makedirs(os.path.join(files_path,newdir))
+        os.makedirs(os.path.join(files_path, newdir))
         listsRenew()
         return True
 
@@ -99,7 +99,7 @@ class folder(Resource):
         d = [d for d in dir_list if d == oldName]
         if len(d) == 0:
             return False
-        os.rename(os.path.join(files_path,oldName),os.path.join(files_path,newName))
+        os.rename(os.path.join(files_path, oldName), os.path.join(files_path, newName))
         listsRenew()
         return True
 
@@ -110,7 +110,7 @@ class folder(Resource):
         print(dirToDelete, "to delete.")
         print(dir_list)
         for d in dir_list:
-            print(d,"!!!")
+            print(d, "!!!")
         d = [d for d in dir_list if d == dirToDelete]
         if len(d) == 0:
             return False
@@ -118,25 +118,19 @@ class folder(Resource):
         listsRenew()
         return True
 
-# def joinPathAndFile(file):
-#     fileGet = []
-#     for f in files_list:
-#         f_dir = str(f.split('@\./@')[0])
-#         f_file = str(f.split('@\./@')[1])
-#         if f_file == file:
-#             fileGet.append(os.path.join(f_dir,f_file))
-#     return fileGet
 
 def listsRenew():
     del dir_list[:]
     del files_list[:]
     for dirName, subdirList, fileList in os.walk(files_path):
-        print('Dir: {}'.format(dirName[dirName.rfind(files_path) + len(files_path)+1:]))
-        dir_list.append(dirName[dirName.rfind(files_path) + len(files_path)+1:])
+        print('Dir: {}'.format(dirName[dirName.rfind(files_path) + len(files_path) + 1:]))
+        dir_list.append(dirName[dirName.rfind(files_path) + len(files_path) + 1:])
         for fname in fileList:
             print('\t{}'.format(fname))
-            files_list.append(os.path.join(dirName,fname)[os.path.join(files_path,fname).rfind(root_path)+len(root_path)+1:])
+            files_list.append(
+                os.path.join(dirName, fname)[os.path.join(files_path, fname).rfind(root_path) + len(root_path) + 1:])
         print()
+
 
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
@@ -150,15 +144,6 @@ if __name__ == '__main__':
     files_list = []
 
     listsRenew()
-    # print(len(files_list))
-
-    # name = 'hat.txt'
-    # print(joinPathAndFile(name))
-    # for d in dir_list:
-    #     print(d)
-    #
     for f in files_list:
         print(f)
-        # if f.split('@\./@')[1] == name:
-        #     print('!!')
     app.run(host="0.0.0.0", port=int(5555))

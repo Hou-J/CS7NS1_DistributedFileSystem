@@ -51,7 +51,7 @@ if __name__ == "__main__":
             clientLibrary.deleteFile(clientLibrary, address, fileToDelete)
 
         elif actionNum == 6:
-            clientLibrary.folderLists(clientLibrary,address)
+            clientLibrary.folderLists(clientLibrary, address)
 
         elif actionNum == 7:
             folderToAdd = input("Input the complete folder directory you want to add: ")

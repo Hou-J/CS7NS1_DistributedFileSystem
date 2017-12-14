@@ -70,16 +70,16 @@ class clientLibrary():
             print("-------------folder added----------------")
         else:
             print("Folder already exist!")
-            
+
     def renameFolder(self, address, oldName, newName):
-        r = requests.put("http://{}/folder".format(address), json={'oldName': oldName,'newName':newName})
+        r = requests.put("http://{}/folder".format(address), json={'oldName': oldName, 'newName': newName})
         data = json.loads(r.text)
         if data:
             print("------------folder renamed---------------")
         else:
             print("Folder do not exist!")
 
-    def deleteFolder(self,address,folderName):
+    def deleteFolder(self, address, folderName):
         r = requests.delete("http://{}/folder".format(address), json={'folderName': folderName})
         data = json.loads(r.text)
         if data:
