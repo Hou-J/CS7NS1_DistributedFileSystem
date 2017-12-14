@@ -81,44 +81,11 @@ class serverfile(Resource):
 
 
 class lockFileAccess(Resource):
-    def put(self, filename):
-        reqparser = reqparse.RequestParser()
-        reqparser.add_argument('id', type=int, location='json')
-        args = reqparser.parse_args()
-        if filename in locks:
-            if args['id'] not in locks[filename]:
-                locks[filename].append(args['id'])
-                print("appended client {} to lock list for {}".format(args['id'], filename))
-                print(locks)
-                return {'success': 'Acquired'}
-            else:
-                print("already got that one")
-                return {'success': 'Already in list'}
-        else:
-            print("File not on server")
-            return {'success': 'Not on server'}
-
-    def delete(self, filename):
-        reqparser = reqparse.RequestParser()
-        reqparser.add_argument('id', type=int, location='json')
-        args = reqparser.parse_args()
-        if filename not in locks:
-            return {'success': 'Not on list'}
-        if args['id'] in locks[filename]:
-            locks[filename].remove(args['id'])
-            print("Lock queue: {}".format(locks))
-            return {'success':'Removed'}
-
-        print("Not on list for some reason")
-        return {'success': 'Not on list'}
-
+    pass
 
 
 class lockAcquire(Resource):
-    def get(self):
-        global currentID
-        currentID+=1
-        return {'id':currentID}
+    pass
 
 
 api.add_resource(lockFileAccess, "/lock/<string:filename>")
@@ -130,7 +97,7 @@ if __name__ == '__main__':
     files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
     fileslist = []
     locks = {}
-    currentID = 0
+
     for filename in os.listdir(files_path):
         print(filename)
         fileslist.append(filename)

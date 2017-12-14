@@ -53,23 +53,17 @@ class clientLibrary():
         elif data == True:
             print("-------------file deleted----------------")
 
-    def lockGetId(address):
-        location = 'http://{}/lock'.format(address)
-        r = requests.get(location)
-        json_data = json.loads(r.text)
-        clientID = json_data['id']
-        return clientID
 
-    def lockAddToQueue(address, clientID, filename):
-        r = requests.put('http://{}/lock/{}'.format(address, filename), json={'id': clientID})
-        json_data = json.loads(r.text)  # JSON to dict (JSON
-        if json_data['success'] == 'Acquired':
+    def lockAddToQueue(address, filename):
+        r = requests.put('http://{}/lock/{}'.format(address, filename))
+        data = json.loads(r.text)
+        if data:
             print("Added {} to lock queue.".format(filename))
         else:
             print("Not added to lock queue")
 
-    def lockDeleteFromQueue(address, clientID, filename):
-        r = requests.delete('http://{}/lock/{}'.format(address, filename), json={'id': clientID})
-        json_data = json.loads(r.text)  # JSON to dict (JSON
-        if json_data['success'] == 'Removed':
+    def lockDeleteFromQueue(address, filename):
+        r = requests.delete('http://{}/lock/{}'.format(address, filename))
+        data = json.loads(r.text)
+        if data:
             print("Removed {} from lock queue.".format(filename))
