@@ -22,7 +22,15 @@ Dependencies:
 		
 		can be installed through	pip install requests
 
+usage:
+    
+       first: python server.py [PORT]
+       second: python client.py [IP] [PORT]
 
+note:
+        
+        all fuctions should be operated by inputing the full path and file name 
+        example: when
 	
 	
 	
