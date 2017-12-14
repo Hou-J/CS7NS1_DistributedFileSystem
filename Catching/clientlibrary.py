@@ -2,7 +2,7 @@ import requests, json
 
 
 class clientLibrary():
-    def fileLists(self, address):
+    def fileLists(self, address, local_catch):
         r = requests.get("http://{}/fileList".format(address))
         filelists = json.loads(r.text)
 
@@ -12,7 +12,7 @@ class clientLibrary():
             print(filename)
         print("\n-------------action end----------------")
 
-    def readFile(self, address, fileName):
+    def readFile(self, address, fileName, local_catch):
         r = requests.get("http://{}/file/{}".format(address, fileName))
         data = json.loads(r.text)
         if data == False:
@@ -23,7 +23,7 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def addFile(self, address, fileName, data):
+    def addFile(self, address, fileName, data, local_catch):
         r = requests.post("http://{}/fileList".format(address), json={'fileName': fileName, 'data': data})
         data = json.loads(r.text)
         if data == False:
@@ -34,7 +34,7 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def editFile(self, address, FileName, data):
+    def editFile(self, address, FileName, data, local_catch):
         r = requests.put("http://{}/file/{}".format(address, FileName), json={'data': data})
         data = json.loads(r.text)
         if data == False:
@@ -45,10 +45,13 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def deleteFile(self, address, fileName):
+    def deleteFile(self, address, fileName, local_catch):
         r = requests.delete("http://{}/file/{}".format(address, fileName))
         data = json.loads(r.text)
         if data == False:
             print("File do not exit!")
         elif data == True:
             print("-------------file deleted----------------")
+
+    def pushFile(self, address, fileToPush, local_catch):
+        pass
