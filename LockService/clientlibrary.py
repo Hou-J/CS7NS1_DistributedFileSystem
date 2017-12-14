@@ -34,8 +34,8 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def editFile(self, address, FileName, data):
-        r = requests.put("http://{}/file/{}".format(address, FileName), json={'data': data})
+    def editFile(self, address, clientID, FileName, data):
+        r = requests.put("http://{}/file/{}".format(address, FileName), json={'clientID': clientID, 'data': data})
         data = json.loads(r.text)
         if data == False:
             print("File do not exist!")
@@ -47,8 +47,8 @@ class clientLibrary():
                 print(d, end='')
             print("\n---------------file end------------------")
 
-    def deleteFile(self, address, fileName):
-        r = requests.delete("http://{}/file/{}".format(address, fileName))
+    def deleteFile(self, address, clientID, fileName):
+        r = requests.delete("http://{}/file/{}".format(address, fileName), json={'clientID': clientID})
         data = json.loads(r.text)
         if data == False:
             print("File do not exist!")
@@ -57,8 +57,10 @@ class clientLibrary():
         else:
             print("-------------file deleted----------------")
 
-    def getClientID(self,address):
-
+    def getClientID(self, address):
+        r = requests.get("http://{}/clientID".format(address))
+        data = json.loads(r.text)
+        return data
 
     def isFileExist(self, address, fileName):
         r = requests.get("http://{}/file/{}".format(address, fileName))
@@ -68,16 +70,17 @@ class clientLibrary():
         else:
             return True
 
-    def lockAddToQueue(self, address, filename):
-        r = requests.put('http://{}/lock/{}'.format(address, filename))
+    def lockAddToQueue(self, address,clientID, filename):
+        r = requests.put('http://{}/lock/{}'.format(address, filename), json={'clientID': clientID})
         data = json.loads(r.text)
         if data:
             print("Added {} to lock queue.".format(filename))
         else:
-            print("Not added to lock queue")
+            print("File is occupied!")
+            return False
 
-    def lockDeleteFromQueue(self, address, filename):
-        r = requests.delete('http://{}/lock/{}'.format(address, filename))
+    def lockDeleteFromQueue(self, address,clientID, filename):
+        r = requests.delete('http://{}/lock/{}'.format(address, filename), json={'clientID': clientID})
         data = json.loads(r.text)
         if data:
             print("Removed {} from lock queue.".format(filename))

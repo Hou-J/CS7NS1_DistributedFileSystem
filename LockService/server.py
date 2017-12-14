@@ -53,10 +53,21 @@ class serverfile(Resource):
         return data
 
     def put(self, filename):
-        l = [l for l in locks if l == filename]
-        if len(l) == 0:
-            r = reqparse.RequestParser()
-            r.add_argument('data', type=str, location='json')
+        r = reqparse.RequestParser()
+        r.add_argument('data', type=str, location='json')
+        r.add_argument('clientID', type=int, location='json')
+        ID = r.parse_args()['clientID']
+
+        # print(locks,"!!!!!!!!!!!!!!!")
+        for lo in locks:
+            print(lo[:len(filename)])
+
+        l = [l for l in locks if l[:len(filename)] == filename]
+
+        # print(l[0][-1],"!!")
+        print(ID)
+        if l[0][-1] == str(ID):
+            # print("@############")
             files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
             f = [f for f in fileslist if f == filename]
             if len(f) == 0:
@@ -74,8 +85,11 @@ class serverfile(Resource):
 
     def delete(self, filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-        l = [l for l in locks if l == filename]
-        if len(l) == 0:
+        r = reqparse.RequestParser()
+        r.add_argument('clientID', type=int, location='json')
+        ID = r.parse_args()['clientID']
+        l = [l for l in locks if l[:len(filename)] == filename]
+        if l[0][-1] == str(ID):
             f = [f for f in fileslist if f == filename]
             if len(f) == 0:
                 return False
@@ -90,14 +104,32 @@ class serverfile(Resource):
 
 class lockFile(Resource):
     def put(self, filename):
-        locks.append(filename)
-        print(locks)
+        r = reqparse.RequestParser()
+        r.add_argument('clientID', type=int, location='json')
+        ID = str(r.parse_args()['clientID'])
+        l = [l for l in locks if l[:len(filename)] == filename]
+        if len(l) == 0:
+            locks.append(filename + ID)
+            print(ID)
+            return True
+        else:
+            return False
 
     def delete(self, filename):
-        locks.remove(filename)
-        print(locks)
+        r = reqparse.RequestParser()
+        r.add_argument('clientID', type=int, location='json')
+        ID = str(r.parse_args()['clientID'])
+        locks.remove(filename + ID)
+        print(ID)
+        return True
 
+class clientID(Resource):
+    def get(self):
+        global clientID
+        clientID += 1
+        return clientID
 
+api.add_resource(clientID, "/clientID")
 api.add_resource(lockFile, "/lock/<string:filename>")
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
@@ -111,5 +143,4 @@ if __name__ == '__main__':
     for filename in os.listdir(files_path):
         print(filename)
         fileslist.append(filename)
-
     app.run(host="0.0.0.0", port=int(sys.argv[1]))
