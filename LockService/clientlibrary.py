@@ -39,6 +39,8 @@ class clientLibrary():
         data = json.loads(r.text)
         if data == False:
             print("File do not exist!")
+        elif data == '-1':
+            print("File occupied!")
         else:
             print("--------------file edited----------------")
             for d in data:
@@ -50,11 +52,23 @@ class clientLibrary():
         data = json.loads(r.text)
         if data == False:
             print("File do not exist!")
-        elif data == True:
+        elif data == '-1':
+            print("File occupied!")
+        else:
             print("-------------file deleted----------------")
 
+    def getClientID(self,address):
 
-    def lockAddToQueue(address, filename):
+
+    def isFileExist(self, address, fileName):
+        r = requests.get("http://{}/file/{}".format(address, fileName))
+        data = json.loads(r.text)
+        if data == False:
+            return False
+        else:
+            return True
+
+    def lockAddToQueue(self, address, filename):
         r = requests.put('http://{}/lock/{}'.format(address, filename))
         data = json.loads(r.text)
         if data:
@@ -62,7 +76,7 @@ class clientLibrary():
         else:
             print("Not added to lock queue")
 
-    def lockDeleteFromQueue(address, filename):
+    def lockDeleteFromQueue(self, address, filename):
         r = requests.delete('http://{}/lock/{}'.format(address, filename))
         data = json.loads(r.text)
         if data:

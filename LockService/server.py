@@ -53,54 +53,63 @@ class serverfile(Resource):
         return data
 
     def put(self, filename):
-        r = reqparse.RequestParser()
-        r.add_argument('data', type=str, location='json')
-        files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-        f = [f for f in fileslist if f == filename]
-        if len(f) == 0:
-            return False
-        editFilePath = os.path.join(files_path, filename)
-        print(editFilePath)
-        currentFile = open(editFilePath, 'w')
-        currentFile.write(r.parse_args()['data'])
-        currentFile.close()
-        with open(os.path.join(files_path, filename)) as f:
-            data = f.readlines()
-        return data
+        l = [l for l in locks if l == filename]
+        if len(l) == 0:
+            r = reqparse.RequestParser()
+            r.add_argument('data', type=str, location='json')
+            files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
+            f = [f for f in fileslist if f == filename]
+            if len(f) == 0:
+                return False
+            editFilePath = os.path.join(files_path, filename)
+            print(editFilePath)
+            currentFile = open(editFilePath, 'w')
+            currentFile.write(r.parse_args()['data'])
+            currentFile.close()
+            with open(os.path.join(files_path, filename)) as f:
+                data = f.readlines()
+            return data
+        else:
+            return "-1"
 
     def delete(self, filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
-        f = [f for f in fileslist if f == filename]
-        if len(f) == 0:
-            return False
-        deleteFilePath = os.path.join(files_path, filename)
-        print(deleteFilePath)
-        os.remove(deleteFilePath)
-        fileslist.remove(fileslist.index(filename))
-        return True
+        l = [l for l in locks if l == filename]
+        if len(l) == 0:
+            f = [f for f in fileslist if f == filename]
+            if len(f) == 0:
+                return False
+            deleteFilePath = os.path.join(files_path, filename)
+            print(deleteFilePath)
+            os.remove(deleteFilePath)
+            fileslist.remove(fileslist.index(filename))
+            return True
+        else:
+            return "-1"
 
 
-class lockFileAccess(Resource):
-    pass
+class lockFile(Resource):
+    def put(self, filename):
+        locks.append(filename)
+        print(locks)
+
+    def delete(self, filename):
+        locks.remove(filename)
+        print(locks)
 
 
-class lockAcquire(Resource):
-    pass
-
-
-api.add_resource(lockFileAccess, "/lock/<string:filename>")
-api.add_resource(lockAcquire, "/lock")
+api.add_resource(lockFile, "/lock/<string:filename>")
 api.add_resource(serverFileList, '/fileList')
 api.add_resource(serverfile, '/file/<string:filename>')
 
 if __name__ == '__main__':
     files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
     fileslist = []
-    locks = {}
+    locks = []
+    clientID = 0
 
     for filename in os.listdir(files_path):
         print(filename)
         fileslist.append(filename)
-        locks[filename] = []
 
     app.run(host="0.0.0.0", port=int(sys.argv[1]))
