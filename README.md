@@ -9,7 +9,7 @@ DistributedTransparentFileAccess
 
 DirectoryService
 
-	the client can only take the whole path together with the filename as input.
+	the client can only take the whole path together with the filename as input(e.g. files\asd\123.txt).
 	view directory using os.walk().
 	when deleting a folder, all the folder and files inside are deleted (shutil.rmtree()).
 
