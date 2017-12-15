@@ -9,8 +9,9 @@ if (len(sys.argv) < 2):
 app = Flask(__name__)
 api = Api(app)
 
-
+# actions to the file list
 class serverFileList(Resource):
+    # get the whole list
     def get(self):
         fileslist = []
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
@@ -20,7 +21,7 @@ class serverFileList(Resource):
             fileslist.append(filename)
         print(fileslist)
         return fileslist
-
+    # add a new file
     def post(self):
         r = reqparse.RequestParser()
         r.add_argument('fileName', type=str, location='json')
@@ -41,8 +42,9 @@ class serverFileList(Resource):
             data = f.readlines()
         return data
 
-
+# actions to the files
 class serverfile(Resource):
+    # read a file
     def get(self, filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
         f = [f for f in fileslist if f == filename]
@@ -51,7 +53,7 @@ class serverfile(Resource):
         with open(os.path.join(files_path, filename)) as f:
             data = f.readlines()
         return data
-
+    # edit a file (override)
     def put(self, filename):
         r = reqparse.RequestParser()
         r.add_argument('data', type=str, location='json')
@@ -67,7 +69,7 @@ class serverfile(Resource):
         with open(os.path.join(files_path, filename)) as f:
             data = f.readlines()
         return data
-
+    # delete a file
     def delete(self, filename):
         files_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "files")
         f = [f for f in fileslist if f == filename]
