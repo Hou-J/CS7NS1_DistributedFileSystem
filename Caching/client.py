@@ -8,7 +8,7 @@ if (len(sys.argv) < 3):
 if __name__ == "__main__":
 
     address = "{}:{}".format(sys.argv[1], int(sys.argv[2]))
-    local_cache = []
+    local_cache = {}
 
     while True:
         actionNum = int(input(

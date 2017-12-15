@@ -25,7 +25,8 @@ class clientLibrary():
             if data == False:
                 print("File do not exit!")
             else:
-                local_cache.append(data)
+                local_cache['filename'] = {fileName : data}
+                print(local_cache)
         else:
             print("Found file in cache.")
             print("--------------file start-----------------")
