@@ -1,0 +1,15 @@
+# Caching：
+Caching is a vital element of any file system design that is required to give good performance and scale. Put simply, the purpose of caching is to make files quicker to access. On the basis that accessing memory is fast, disk access is slower, and network access to a file server is very slow relatively, an effective caching strategy will seek to maintain consistent copies of file server data (i.e. the files) as close to the client proxy as possible. In concrete terms this means maintaining a copy in memory on the client if possible, on disk at the client if possible, in memory on the server if possible. These are the three sensible locations where we might consider implementing a caching solution. We must always bear in mind, however, that caching functionality, like all functionality, carries a runtime overhead and so there must be, on balance, overall performance benefits to implementing caching at a particular point that justify the extra runtime overhead, and the cost of designing and implementing a solution.
+
+For example, consider an upload/download model used in very large scale file systems such as AFS: is caching in memory on the server side useful here? With this model, clients interact with the server only twice during the use of a particular file: first, when the file is opened it is copied to the client, and second, when the file is closed it is copied back to the server. Since files are generally only accessed by one user at a time, the likelihood of another user accessing this file is low, and therefore there appears to be no advantage in having the file to hand in memory on the server. That said, it is common in such large scale file systems for the relatively few files that are accessed by more than one user to be read only in the main. Such files are good candidates for caching.
+
+It is likely that in implementing your solution, you will find it useful to cache in memory on the client: with an NFS style model you reduce network access with reads, and with AFS it is in fact mandatory. You should consider whether there is anything to be gained in caching not whole files, but parts of files: if you cache whole files then you may find your solution will prove cumbersome with large files. Generally, users access only small parts of files – often a small change is made to a paragraph in a chapter for example and no further access is made. Thus, caching at a smaller granularity than the file is sometimes a useful technique: remember the point of caching is to quicken access times, and reduce network access.
+
+The key concern in devising a caching design, is to consider cache invalidation in the face of multiple concurrent clients reading and writing from the same file. If client A reads file X, and client B writes to file X, then client A's cache copy should be invalidated promptly under normal circumstances. To fail to do so allows inconsistent state to emerge in a system. Invalidation may of course be based on polling or push.
+
+## Note:
+        
+Not fully done.
+	
+	
+
